@@ -1,7 +1,7 @@
 import { getStore } from '@netlify/blobs';
 import crypto from 'node:crypto';
 
-const json=(statusCode,obj)=>({statusCode,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'},body:JSON.stringify(obj)});
+const json=(statusCode,obj)=>new Response(JSON.stringify(obj),{status:statusCode,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}});
 const safeEq=(a,b)=>{const A=Buffer.from(String(a||'')),B=Buffer.from(String(b||''));return A.length===B.length&&crypto.timingSafeEqual(A,B)};
 const tokenFor=(group,secret)=>crypto.createHmac('sha256',secret).update(group).digest('hex').slice(0,32);
 
